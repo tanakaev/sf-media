@@ -1,0 +1,67 @@
+:root {
+  --main-color: #f7d081;
+  --primary-bg: #12141d;
+  --font-color: #ffffff;
+  --font-poppins: "Poppins", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  color: var(--font-color);
+  background-color: var(--primary-bg);
+  font-size: 10px;
+}
+
+.app {
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-montserrat);
+}
+
+h2 {
+  font-size: 5.4rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 100%;
+}
+
+h2 .color {
+  color: #f7d081;
+}
+
+h4 {
+  font-size: 2.6rem;
+  font-weight: 600;
+}
+
+p {
+  font-family: var(--font-poppins);
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+button {
+  font-family: var(--font-poppins);
+}
+
+a {
+  font-family: var(--font-poppins);
+}
+
+.spacer {
+  height: 30px;
+  width: 1px;
+  background: #ababab;
+  margin: 3rem 0;
+}

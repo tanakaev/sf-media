@@ -1,0 +1,104 @@
+/* Home.module.css */
+.home {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  top: 0;
+}
+
+.hero {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 5%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.intro {
+  position: fixed;
+  top: 35%;
+  left: 5%;
+  transform: translateY(-50%);
+  text-align: left;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 5.8rem;
+  line-height: 100%;
+  margin-bottom: 1.6rem;
+  color: var(--font-color);
+}
+
+.description {
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: 150%;
+  color: var(--font-color);
+}
+
+@media screen and (max-width: 980px) {
+  .home {
+    max-height: 100%;
+    position: static;
+    margin-top: 12rem;
+  }
+
+  .hero {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: static;
+    padding: 0 5%;
+  }
+
+  .intro {
+    position: static;
+    top: 0;
+    left: 0;
+    transform: translateY(0);
+    padding: 0 5% 4.5rem 5%;
+  }
+
+  .title {
+    font-size: clamp(3.4rem, 5.4vw, 5.4rem);
+  }
+
+  .description {
+    font-size: clamp(1.4rem, 1.6vw, 1.6rem);
+    font-weight: 250;
+  }
+
+  .container {
+    width: 100%;
+    height: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+}

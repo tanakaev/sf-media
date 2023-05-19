@@ -1,0 +1,50 @@
+/* ServicesList.module.css */
+
+.service {
+  margin-bottom: 4.6rem;
+  position: relative;
+}
+
+.serviceIcon {
+  width: clamp(32px, 5vw, 50px);
+  height: clamp(32px, 5vw, 50px);
+}
+
+.serviceIcon img {
+  width: 100%;
+  height: auto;
+  filter: invert(1);
+}
+
+.serviceTitle {
+  margin: clamp(1rem, 2vw, 2rem) 0;
+  font-weight: 500;
+}
+
+.serviceDescription p {
+  color: #b4b4b4;
+  line-height: 150%;
+  font-weight: 400;
+}
+
+/* anim */
+
+.btnShowMore {
+  margin-top: clamp(1.6rem, 3.2vw, 3.2rem);
+  background-color: transparent;
+  border: none;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btnShowMore:hover {
+  opacity: 0.2;
+}
+
+@media screen and (max-width: 768px) {
+  /* .service {
+    width: 100%;
+  } */
+}

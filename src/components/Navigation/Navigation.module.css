@@ -1,0 +1,180 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3.6rem 5%;
+  z-index: 999;
+}
+
+.logo {
+  width: 185px;
+  height: auto;
+}
+
+.logo img {
+  width: 100%;
+  height: auto;
+}
+
+.toggle {
+  min-width: 85px;
+  width: 85px;
+  height: 85px;
+  background-color: var(--font-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  top: 0;
+  z-index: 9999;
+}
+
+.toggle::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  background-color: var(--main-color);
+  border-radius: 50%;
+  transition: width 0.2s ease-in, height 0.2s ease-in;
+  z-index: -1;
+}
+
+.toggle:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.text {
+  font-family: var(--font-poppins);
+  color: var(--primary-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.toggle:hover span {
+  color: white;
+}
+
+.text span {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  line-height: 100%;
+  font-weight: 500;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-bg);
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+.menu ul li:first-child {
+  border-top: 1px solid #272b3d;
+}
+
+.menu ul li {
+  padding: 0.5vw 95px 0.6vw;
+  border-bottom: 1px solid #272b3d;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.menu ul li a {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+}
+
+.menu ul li a span,
+.menu ul li a .hoverText {
+  display: block;
+  position: relative;
+  font-size: clamp(3rem, 10vw, 10rem);
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: transform 0.5s;
+}
+
+.menu ul li a span {
+  color: var(--font-color);
+}
+
+.menu ul li a .hoverText {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: var(--main-color);
+  transform: translateY(100%);
+}
+
+.menu ul li a:hover span {
+  transform: translateY(-100%);
+}
+
+.menu ul li a:hover .hoverText {
+  transform: translateY(0);
+}
+
+@media screen and (max-width: 980px) {
+  .nav {
+    padding: 10px 5%;
+  }
+
+  .toggle {
+    min-width: 70px;
+    width: 70px;
+    height: 70px;
+  }
+
+  .logo {
+    width: 142px;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .logo {
+    width: 126px;
+    height: auto;
+  }
+
+  .toggle {
+    z-index: 999;
+  }
+
+  .menu ul li a span,
+  .menu ul li a .hoverText {
+    line-height: 220%;
+  }
+}

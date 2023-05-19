@@ -1,0 +1,194 @@
+/* Services.module.css */
+
+.services {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rem 5%;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.servicesIntro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  top: 0;
+}
+
+.servicesIntro h2 {
+  text-align: center;
+}
+
+.servicesIntro p {
+  align-self: flex-start;
+  line-height: 160%;
+  text-align: left;
+  font-weight: 400;
+}
+
+.servicesList {
+  padding: 20rem 5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 12rem;
+  column-gap: 12rem;
+  position: relative;
+  top: 0;
+}
+
+/* decorations */
+
+.crosshair,
+.circles,
+.decoWord,
+.circleDashed {
+  position: absolute;
+  opacity: 0.02;
+  color: #fff;
+}
+
+p.decoWord {
+  font-size: 300px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -120%;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: var(--font-poppins);
+}
+
+.crosshair {
+  opacity: 0.5;
+  top: 50%;
+  left: -50%;
+}
+
+.circles {
+  width: 340px;
+  bottom: -20%;
+  right: -5%;
+}
+
+.circleDashed {
+  opacity: 1;
+  left: 150%;
+  top: 100%;
+}
+
+@media screen and (max-width: 1280px) {
+  p.decoWord {
+    font-size: 250px;
+    top: -100%;
+  }
+
+  .crosshair {
+    top: 80%;
+    left: -30%;
+  }
+
+  .circles {
+    width: 340px;
+    bottom: -24%;
+    right: -5%;
+  }
+
+  .circleDashed {
+    left: 120%;
+    top: 100%;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .servicesList {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+  }
+
+  .services {
+    padding: 10rem 5%;
+  }
+
+  p.decoWord {
+    font-size: 160px;
+    top: -60%;
+  }
+
+  .crosshair {
+    top: 50%;
+    left: -10%;
+  }
+
+  .circles {
+    width: 340px;
+    bottom: -10%;
+    right: -5%;
+  }
+
+  .circleDashed {
+    left: 100%;
+    top: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .servicesList {
+    grid-template-columns: 1fr;
+    padding: 0 5%;
+  }
+
+  .servicesList {
+    margin-top: 10rem;
+    row-gap: 6rem;
+    column-gap: 0;
+  }
+
+  .servicesIntro,
+  .servicesIntro h2,
+  .servicesIntro p {
+    width: 100%;
+    word-wrap: break-word;
+  }
+
+  p.decoWord {
+    font-size: 120px;
+    top: -40%;
+  }
+
+  .crosshair {
+    top: 50%;
+    left: 20%;
+  }
+
+  .circles {
+    width: 180px;
+    bottom: -5%;
+    right: 0%;
+  }
+
+  .circleDashed {
+    left: 80%;
+    top: 100%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  p.decoWord {
+    font-size: 70px;
+    top: -18%;
+  }
+
+  .circles {
+    bottom: -8%;
+    right: -5%;
+  }
+}

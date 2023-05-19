@@ -1,0 +1,172 @@
+.solutions {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 50rem 5% 20rem 5%;
+  position: relative;
+}
+
+.solutionsIntro {
+  text-align: center;
+  margin-bottom: 2rem;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 595px;
+  position: relative;
+  top: 0;
+}
+
+.solutionsIntro p,
+.solutionsIntro h4 {
+  width: 100%;
+}
+
+.solutionsIntro p {
+  line-height: 160%;
+  font-weight: 400;
+}
+
+.solutionsList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20rem;
+}
+
+/* deco */
+
+.crosshair,
+.circles,
+.decoWord,
+.circleDashed {
+  z-index: -1;
+  position: absolute;
+  opacity: 0.02;
+  color: #fff;
+}
+
+p.decoWord {
+  font-size: 300px;
+  left: -500px;
+  top: -100%;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: var(--font-poppins);
+}
+
+.crosshair {
+  top: 20%;
+  right: 25%;
+  opacity: 0.5;
+}
+
+.circles {
+  width: 340px;
+  top: 40%;
+  right: 0;
+}
+
+.circleDashed {
+  top: 40%;
+  left: 15%;
+  opacity: 1;
+}
+
+@media screen and (max-width: 1600px) {
+  p.decoWord {
+    font-size: 250px;
+    left: -250px;
+    top: -80%;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  p.decoWord {
+    font-size: 180px;
+    left: -180px;
+    top: -60%;
+  }
+  .circles {
+    width: 200px;
+    top: 44%;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .solutions {
+    padding: 20rem 5%;
+  }
+
+  .solutionsList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  p.decoWord {
+    font-size: 160px;
+    left: -160px;
+    top: -45%;
+  }
+
+  .crosshair {
+    top: 25%;
+    right: 25%;
+  }
+
+  .circles {
+    width: 180px;
+    top: 35%;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .solutionsList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  p.decoWord {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 160px;
+    left: 50%;
+    top: -5%;
+    transform: translate(-50%, -50%);
+  }
+
+  .crosshair {
+    top: 25%;
+    right: 25%;
+  }
+
+  .circles {
+    top: 24%;
+    right: 0;
+  }
+
+  .circleDashed {
+    top: 28%;
+    left: 15%;
+    opacity: 1;
+    scale: 0.8;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  p.decoWord {
+    font-size: 100px;
+    left: 50%;
+    top: -5%;
+  }
+}
