@@ -24,7 +24,7 @@ function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("https://sf-media.vercel.app/api/sendmail", {
+      const response = await fetch("https://www.media-sf.de/api/sendmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
