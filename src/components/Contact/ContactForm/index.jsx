@@ -24,7 +24,7 @@ function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:3001/sendmail", {
+      const response = await fetch("https://sf-media.vercel.app/sendmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
