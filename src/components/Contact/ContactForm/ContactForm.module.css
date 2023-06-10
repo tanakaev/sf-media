@@ -3,9 +3,17 @@
 }
 
 .form_fields {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: space-between;
+  -ms-flex-align: space-between;
   align-items: space-between;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   width: 685px;
   min-width: 320px;
@@ -19,8 +27,15 @@
 }
 
 .form_field {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
 }
 
@@ -58,6 +73,8 @@
   border: 1px solid transparent;
   background-color: #fff;
   color: #000;
+  -webkit-transition: 0.25s ease;
+  -o-transition: 0.25s ease;
   transition: 0.25s ease;
   cursor: pointer;
 }
@@ -82,14 +99,28 @@
   }
 
   .row_fields {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
   }
 
   .form_fields {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: space-between;
+    -ms-flex-align: space-between;
     align-items: space-between;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     width: 100%;
     min-width: auto;
@@ -97,7 +128,12 @@
 
   .form_field {
     width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
     flex-direction: row;
   }
 

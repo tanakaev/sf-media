@@ -10,22 +10,39 @@
 .container {
   width: 100%;
   min-height: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: space-between;
+  -ms-flex-align: space-between;
   align-items: space-between;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
 .company_info {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 
 .logo {
   width: clamp(120px, 25vw, 160px);
   height: auto;
+  -ms-flex-item-align: start;
   align-self: flex-start;
 }
 
@@ -35,14 +52,26 @@
 }
 
 .contact_info {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -ms-flex-item-align: start;
   align-self: flex-start;
 }
 
 .social_media {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
 }
 
@@ -60,6 +89,7 @@
 .social_icon img {
   width: 100%;
   height: 100%;
+  -webkit-filter: invert(1);
   filter: invert(1);
 }
 
@@ -79,20 +109,35 @@
 
 @media screen and (max-width: 1023px) {
   .container {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: column-reverse;
     flex-direction: column-reverse;
   }
 
   .company_info {
     width: 100%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
     flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     margin-top: 8rem;
   }
 
   .logo {
+    -ms-flex-item-align: center;
     align-self: center;
   }
 }
