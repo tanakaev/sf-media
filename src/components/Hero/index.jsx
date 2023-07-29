@@ -19,18 +19,19 @@ function Home({ setScrollWidth }) {
     };
 
     window.addEventListener("resize", updateScrollWidth);
-
-    // Initial update
     updateScrollWidth();
 
     return () => {
       window.removeEventListener("resize", updateScrollWidth);
     };
-  }, [containerRef, setScrollWidth]);
+  }, [setScrollWidth]);
 
   useEffect(() => {
-    const init = () => {
+    const init = async () => {
       if (window.innerWidth <= 980) return;
+
+      // Dynamiczne importowanie GSAP
+      const { gsap } = await import("gsap");
 
       const home = homeRef.current;
       const hero = heroRef.current;

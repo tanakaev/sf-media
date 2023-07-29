@@ -15,8 +15,8 @@
 }
 
 .wrapper img {
-  width: clamp(320px, 16vw, 360px);
-  height: clamp(480px, 28vw, 540px);
+  width: clamp(200px, 16vw, 360px);
+  height: auto;
   -o-object-fit: cover;
   object-fit: cover;
   margin-right: 1.5rem;

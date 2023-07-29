@@ -1,0 +1,30 @@
+.content {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.content h2 {
+  margin-bottom: 60px;
+}
+
+.content p,
+.content h4 {
+  margin-bottom: 20px;
+}
+
+.content ul {
+  font-size: 1.8rem;
+  margin: 20px 0;
+}
+
+.content li {
+  list-style-type: disc;
+  margin-left: 26px;
+  margin-bottom: 8px;
+}
+
+.content h2,
+.content p,
+.content h4 {
+  word-wrap: break-word;
+}

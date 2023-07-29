@@ -1,0 +1,23 @@
+.content {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.content h2 {
+  margin-bottom: 60px;
+}
+
+.content p,
+.content h4 {
+  margin-bottom: 20px;
+}
+
+.content a {
+  color: #ccc;
+}
+
+.content h2,
+.content p,
+.content h4 {
+  word-wrap: break-word;
+}

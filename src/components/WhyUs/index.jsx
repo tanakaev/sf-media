@@ -2,7 +2,6 @@ import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useScrollRotateAnimation from "../../hooks/useScrollRotateAnimation";
-import Spline from "@splinetool/react-spline";
 import tick from "../../assets/images/others/tick.svg";
 import crosshair from "../../assets/images/decorations/crosshair.svg";
 import circleDashed from "../../assets/images/decorations/circleDashed.svg";
@@ -78,9 +77,6 @@ function WhyUs({ scrollWidth }) {
 
   return (
     <section className={styles.whyUs} id="warum-wir">
-      <div className={styles.leftColumn}>
-        <Spline scene="https://prod.spline.design/bJ8sPAJkTCUcHo73/scene.splinecode" />
-      </div>
       <div className={styles.rightColumn}>
         <img
           className={styles.crosshair}
