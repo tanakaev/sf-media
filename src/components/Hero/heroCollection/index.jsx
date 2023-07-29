@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import styles from "./HeroCollection.module.css";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import picture_1 from "../../../assets/images/heroCollection/1.webp";
 import picture_2 from "../../../assets/images/heroCollection/2.webp";
 import picture_3 from "../../../assets/images/heroCollection/3.webp";
@@ -13,15 +14,15 @@ import picture_9 from "../../../assets/images/heroCollection/9.webp";
 
 const HeroCollection = () => {
   const images = [
-    { src: picture_1, alt: "Opis obrazu 1" },
-    { src: picture_2, alt: "Opis obrazu 2" },
-    { src: picture_3, alt: "Opis obrazu 2" },
-    { src: picture_4, alt: "Opis obrazu 2" },
-    { src: picture_5, alt: "Opis obrazu 2" },
-    { src: picture_6, alt: "Opis obrazu 2" },
-    { src: picture_7, alt: "Opis obrazu 2" },
-    { src: picture_8, alt: "Opis obrazu 2" },
-    { src: picture_9, alt: "Opis obrazu 2" },
+    { src: picture_1, alt: "image_1" },
+    { src: picture_2, alt: "image_2" },
+    { src: picture_3, alt: "image_3" },
+    { src: picture_4, alt: "image_4" },
+    { src: picture_5, alt: "image_5" },
+    { src: picture_6, alt: "image_6" },
+    { src: picture_7, alt: "image_7" },
+    { src: picture_8, alt: "image_8" },
+    { src: picture_9, alt: "image_9" },
   ];
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 980);
@@ -30,7 +31,7 @@ const HeroCollection = () => {
     setIsMobile(window.innerWidth <= 980);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -41,7 +42,7 @@ const HeroCollection = () => {
 
   const refs = images.map(() => useRef(null));
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     refs.forEach((ref, i) => {
       if (i >= visibleImages.length) {
         return;

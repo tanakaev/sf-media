@@ -1,5 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useLayoutEffect } from "react";
+import "gsap/ScrollTrigger";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Home.module.css";
 import HeroCollection from "./heroCollection/index";
 
@@ -9,7 +11,7 @@ function Home({ setScrollWidth }) {
   const introRef = useRef(null);
   const containerRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const updateScrollWidth = () => {
       if (window.innerWidth <= 980) {
         setScrollWidth(0);
@@ -26,11 +28,10 @@ function Home({ setScrollWidth }) {
     };
   }, [setScrollWidth]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const init = async () => {
       if (window.innerWidth <= 980) return;
 
-      // Dynamiczne importowanie GSAP
       const { gsap } = await import("gsap");
 
       const home = homeRef.current;

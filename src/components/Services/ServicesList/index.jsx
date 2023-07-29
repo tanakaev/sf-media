@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import styles from "./ServicesItem.module.css";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const ServicesItem = ({ icon, title, description }) => {
   const [showMore, setShowMore] = useState(false);
