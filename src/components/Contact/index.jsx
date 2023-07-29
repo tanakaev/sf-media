@@ -26,7 +26,7 @@ function Contact() {
               </div>
               <div className={styles.social_icon}>
                 <a
-                  href="https://www.instagram.com/sfmedia__/"
+                  href="https://www.instagram.com/sfmedia_agentur/"
                   target="_blank"
                   rel="noreferrer"
                 >
