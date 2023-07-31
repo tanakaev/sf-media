@@ -1,17 +1,33 @@
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useEffect, useLayoutEffect, useState } from "react";
 import "gsap/ScrollTrigger";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Home.module.css";
 import HeroCollection from "./heroCollection/index";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Home({ setScrollWidth }) {
   const heroRef = useRef(null);
+  const containerRef = useRef(null);
   const homeRef = useRef(null);
   const introRef = useRef(null);
-  const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 980);
 
-  useLayoutEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 980);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    gsap.core.globals("ScrollTrigger", ScrollTrigger);
+
     const updateScrollWidth = () => {
       if (window.innerWidth <= 980) {
         setScrollWidth(0);
@@ -33,6 +49,7 @@ function Home({ setScrollWidth }) {
       if (window.innerWidth <= 980) return;
 
       const { gsap } = await import("gsap");
+      gsap.registerPlugin(ScrollTrigger);
 
       const home = homeRef.current;
       const hero = heroRef.current;
@@ -53,10 +70,19 @@ function Home({ setScrollWidth }) {
       });
     };
 
-    window.addEventListener("load", init);
+    const onLoad = () => {
+      init();
+    };
+
+    if (document.readyState === "complete") {
+      onLoad();
+    } else {
+      window.addEventListener("load", onLoad);
+    }
 
     return () => {
-      window.removeEventListener("load", init);
+      window.removeEventListener("load", onLoad);
+      gsap.killTweensOf(heroRef.current);
     };
   }, []);
 

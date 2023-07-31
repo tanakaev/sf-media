@@ -8,6 +8,8 @@ import circleDashed from "../../assets/images/decorations/circleDashed.svg";
 import styles from "./Solutions.module.css";
 import SolutionItem from "./SolutionItems/index";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Solutions({ scrollWidth }) {
   useScrollRotateAnimation(styles.circleDashed);
 

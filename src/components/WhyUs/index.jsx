@@ -7,6 +7,8 @@ import crosshair from "../../assets/images/decorations/crosshair.svg";
 import circleDashed from "../../assets/images/decorations/circleDashed.svg";
 import styles from "./WhyUs.module.css";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function WhyUs({ scrollWidth }) {
   useScrollRotateAnimation(styles.circleDashed);
 

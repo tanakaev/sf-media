@@ -9,6 +9,8 @@ import tiktok from "../../assets/images/socialBelt/tiktok.svg";
 import twitter from "../../assets/images/socialBelt/twitter.svg";
 import youtube from "../../assets/images/socialBelt/youtube.svg";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function SocialNetworks({ scrollWidth }) {
   const containerRef = useRef(null);
 

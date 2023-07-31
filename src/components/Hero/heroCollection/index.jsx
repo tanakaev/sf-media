@@ -12,6 +12,8 @@ import picture_7 from "../../../assets/images/heroCollection/7.webp";
 import picture_8 from "../../../assets/images/heroCollection/8.webp";
 import picture_9 from "../../../assets/images/heroCollection/9.webp";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const HeroCollection = () => {
   const images = [
     { src: picture_1, alt: "image_1" },
@@ -90,6 +92,7 @@ const HeroCollection = () => {
           src={image.src}
           alt={image.alt}
           style={{ display: i < visibleImages.length ? "block" : "none" }}
+          loading="lazy"
         />
       ))}
     </div>

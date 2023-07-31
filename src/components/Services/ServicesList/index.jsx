@@ -3,6 +3,8 @@ import styles from "./ServicesItem.module.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const ServicesItem = ({ icon, title, description }) => {
   const [showMore, setShowMore] = useState(false);
   const textWrapperRef = useRef(null);

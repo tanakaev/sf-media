@@ -14,6 +14,8 @@ import email_marketing from "../../assets/images/servicesIcons/email-marketing.p
 import copywriting from "../../assets/images/servicesIcons/copywriting.png";
 import landingpages from "../../assets/images/servicesIcons/landingpages.png";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Services({ scrollWidth }) {
   useScrollRotateAnimation(styles.circleDashed);
 

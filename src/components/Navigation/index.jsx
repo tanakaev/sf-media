@@ -93,7 +93,9 @@ function Navigation() {
   return (
     <nav className={styles.nav} aria-label="breadcrumb">
       <div className={styles.logo}>
-        <img src={logo} alt="sf-media logo" />
+        <a href="/">
+          <img src={logo} alt="sf-media logo" />
+        </a>
       </div>
       <div
         className={styles.toggle}
