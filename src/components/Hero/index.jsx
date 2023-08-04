@@ -18,14 +18,14 @@ function Home({ setScrollWidth }) {
     setIsMobile(window.innerWidth <= 980);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     gsap.core.globals("ScrollTrigger", ScrollTrigger);
 
     const updateScrollWidth = () => {

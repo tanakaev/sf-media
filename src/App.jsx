@@ -10,8 +10,8 @@ import Contact from "./components/Contact/index";
 import Footer from "./components/Footer/index";
 import SocialNetworks from "./components/SocialNetworks";
 
-gsap.core.globals("ScrollTrigger", ScrollTrigger);
 gsap.registerPlugin(ScrollTrigger);
+gsap.core.globals("ScrollTrigger", ScrollTrigger);
 
 function App() {
   const [scrollWidth, setScrollWidth] = useState(0);
