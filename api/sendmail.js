@@ -7,7 +7,7 @@ export default async (req, res) => {
   const { name, vorname, email, telefonnummer, nachricht } = req.body;
 
   var transporter = nodemailer.createTransport({
-    host: "mail.gmx.com",
+    host: "mail.gmx.net",
     port: 587,
     tls: {
       ciphers: "SSLv3",
