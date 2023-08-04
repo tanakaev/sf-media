@@ -40,58 +40,64 @@ const HeroCollection = () => {
     };
   }, []);
 
-  const visibleImages = isMobile ? images.slice(0, 4) : images;
-
+  const wrapperRef = useRef(null);
   const refs = images.map(() => useRef(null));
 
   useEffect(() => {
-    refs.forEach((ref, i) => {
-      if (i >= visibleImages.length) {
-        return;
-      }
+    if (!gsap.plugins.scrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+    }
 
-      if (i === 0) {
-        gsap.set(ref.current, { autoAlpha: 1 });
-      } else if (i < 4 && isMobile) {
-        gsap.fromTo(
-          ref.current,
-          { autoAlpha: 0, y: 50, scale: 0.9 },
-          {
-            delay: i * 0.1,
-            duration: 0.4,
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            ease: "power3.inOut",
-            scrollTrigger: {
-              trigger: ref.current,
-              start: "top 60%",
-              end: "bottom 80%",
-              scrub: 1,
-              onUpdate: (self) => {
-                gsap.set(ref.current, {
-                  yPercent: self.getVelocity() / -300,
-                });
-              },
-            },
-          }
-        );
-      } else {
-        gsap.killTweensOf(ref.current);
-        gsap.set(ref.current, { autoAlpha: 1 });
-      }
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: wrapperRef.current,
+        start: "top 60%",
+        end: "bottom 80%",
+        scrub: 1,
+        onUpdate: (self) => {
+          const velocity = self.getVelocity();
+          const yPercent = velocity / -300;
+
+          gsap.set(
+            refs.slice(1, 5).map((ref) => ref.current),
+            {
+              yPercent: yPercent,
+            }
+          );
+        },
+      },
     });
-  }, [isMobile, refs]);
+
+    tl.fromTo(
+      refs[0].current,
+      { autoAlpha: 0, y: 50, scale: 0.9 },
+      { autoAlpha: 1, y: 0, scale: 1 }
+    );
+
+    tl.fromTo(
+      refs.slice(1, 5).map((ref) => ref.current),
+      { autoAlpha: 0, y: 50, scale: 0.9 },
+      { autoAlpha: 1, y: 0, scale: 1, stagger: 0.1 }
+    );
+
+    tl.fromTo(
+      refs.slice(5).map((ref) => ref.current),
+      { autoAlpha: 0 },
+      { autoAlpha: 1 }
+    );
+  }, [refs]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={wrapperRef}>
       {images.map((image, i) => (
         <img
-          ref={refs[i]}
           key={i}
+          ref={refs[i]}
           src={image.src}
           alt={image.alt}
-          style={{ display: i < visibleImages.length ? "block" : "none" }}
+          style={{
+            display: i < (isMobile ? 4 : images.length) ? "block" : "none",
+          }}
           loading="lazy"
         />
       ))}
