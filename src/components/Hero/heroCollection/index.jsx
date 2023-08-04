@@ -48,44 +48,72 @@ const HeroCollection = () => {
   const refs = images.map(() => useRef(null));
 
   useEffect(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: wrapperRef.current,
-        start: "top 60%",
-        end: "bottom 80%",
-        scrub: 1,
-        onUpdate: (self) => {
-          const velocity = self.getVelocity();
-          const yPercent = velocity / -300;
+    gsap.set(
+      refs.map((ref) => ref.current),
+      { autoAlpha: 0 }
+    );
 
-          gsap.set(
-            refs.slice(1, 5).map((ref) => ref.current),
-            {
-              yPercent: yPercent,
-            }
-          );
+    if (isMobile) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: wrapperRef.current,
+          start: "top 60%",
+          end: "bottom 80%",
+          scrub: 1,
+          onUpdate: (self) => {
+            const velocity = self.getVelocity();
+            const yPercent = velocity / -300;
+
+            gsap.set(
+              refs.slice(1, 5).map((ref) => ref.current),
+              {
+                yPercent: yPercent,
+              }
+            );
+          },
         },
-      },
-    });
+      });
 
-    tl.fromTo(
-      refs[0].current,
-      { autoAlpha: 0, y: 50, scale: 0.9 },
-      { autoAlpha: 1, y: 0, scale: 1 }
-    );
+      tl.fromTo(
+        refs[0].current,
+        { autoAlpha: 0, y: 50, scale: 0.9 },
+        { autoAlpha: 1, y: 0, scale: 1 }
+      );
 
-    tl.fromTo(
-      refs.slice(1, 5).map((ref) => ref.current),
-      { autoAlpha: 0, y: 50, scale: 0.9 },
-      { autoAlpha: 1, y: 0, scale: 1, stagger: 0.1 }
-    );
+      tl.fromTo(
+        refs.slice(1, 5).map((ref) => ref.current),
+        { autoAlpha: 0, y: 50, scale: 0.9 },
+        { autoAlpha: 1, y: 0, scale: 1, stagger: 0.1 }
+      );
 
-    tl.fromTo(
-      refs.slice(5).map((ref) => ref.current),
-      { autoAlpha: 0 },
-      { autoAlpha: 1 }
-    );
-  }, [refs]);
+      tl.fromTo(
+        refs.slice(5).map((ref) => ref.current),
+        { autoAlpha: 0 },
+        { autoAlpha: 1 }
+      );
+    } else {
+      // Efekt dla desktopu
+      gsap.set(
+        refs.map((ref) => ref.current),
+        { autoAlpha: 0.3 }
+      );
+
+      gsap.to(
+        refs.map((ref) => ref.current),
+        {
+          autoAlpha: 1,
+          duration: 1,
+          ease: "ease.inOut",
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: "top 70%",
+            end: "bottom 75%",
+            scrub: 1,
+          },
+        }
+      );
+    }
+  }, [refs, isMobile]);
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>

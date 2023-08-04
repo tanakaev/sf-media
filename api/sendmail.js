@@ -9,7 +9,10 @@ export default async (req, res) => {
   let transporter = nodemailer.createTransport({
     host: "mail.gmx.net",
     port: 587,
-    secure: false,
+    tls: {
+      ciphers: "SSLv3",
+      rejectUnauthorized: false,
+    },
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
