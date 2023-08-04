@@ -27,23 +27,6 @@ const HeroCollection = () => {
     { src: picture_9, alt: "image_9" },
   ];
 
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" && window.innerWidth <= 980
-  );
-
-  const handleResize = () => {
-    setIsMobile(typeof window !== "undefined" && window.innerWidth <= 980);
-  };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
-  }, []);
-
   const wrapperRef = useRef(null);
   const refs = images.map(() => useRef(null));
 
@@ -56,18 +39,27 @@ const HeroCollection = () => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: wrapperRef.current,
-        start: isMobile ? "top 60%" : "top 70%",
-        end: isMobile ? "bottom 80%" : "bottom 75%",
+        start: "top 60%",
+        end: "bottom 80%",
         scrub: 1,
       },
     });
 
     tl.fromTo(
       refs.map((ref) => ref.current),
-      { autoAlpha: 0, y: isMobile ? 50 : 0, scale: isMobile ? 0.9 : 1 },
-      { autoAlpha: 1, y: 0, scale: 1, stagger: isMobile ? 0.1 : 0.2 }
+      {
+        autoAlpha: 0,
+        y: window.innerWidth <= 980 ? 50 : 0,
+        scale: window.innerWidth <= 980 ? 0.9 : 1,
+      },
+      {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        stagger: window.innerWidth <= 980 ? 0.1 : 0.2,
+      }
     );
-  }, [refs, isMobile]);
+  }, [refs]);
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
@@ -78,7 +70,10 @@ const HeroCollection = () => {
           src={image.src}
           alt={image.alt}
           style={{
-            display: i < (isMobile ? 4 : images.length) ? "block" : "none",
+            display:
+              i < (window.innerWidth <= 980 ? 4 : images.length)
+                ? "block"
+                : "none",
           }}
           loading="lazy"
         />

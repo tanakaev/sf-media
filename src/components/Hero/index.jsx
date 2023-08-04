@@ -26,8 +26,6 @@ const Home = ({ setScrollWidth }) => {
   }, []);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const updateScrollWidth = () => {
       if (window.innerWidth <= 980) {
         setScrollWidth(0);
