@@ -18,15 +18,15 @@ function Home({ setScrollWidth }) {
     setIsMobile(window.innerWidth <= 980);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  useLayoutEffect(() => {
-    gsap.core.globals("ScrollTrigger", ScrollTrigger);
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
 
     const updateScrollWidth = () => {
       if (window.innerWidth <= 980) {
@@ -44,7 +44,7 @@ function Home({ setScrollWidth }) {
     };
   }, [setScrollWidth]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const init = async () => {
       if (window.innerWidth <= 980) return;
 

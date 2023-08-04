@@ -27,27 +27,27 @@ const HeroCollection = () => {
     { src: picture_9, alt: "image_9" },
   ];
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 980);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.innerWidth <= 980
+  );
 
   const handleResize = () => {
-    setIsMobile(window.innerWidth <= 980);
+    setIsMobile(typeof window !== "undefined" && window.innerWidth <= 980);
   };
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
   }, []);
 
   const wrapperRef = useRef(null);
   const refs = images.map(() => useRef(null));
 
   useEffect(() => {
-    if (!gsap.plugins.scrollTrigger) {
-      gsap.registerPlugin(ScrollTrigger);
-    }
-
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: wrapperRef.current,
