@@ -7,7 +7,7 @@ import HeroCollection from "./heroCollection/index";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Home({ setScrollWidth }) {
+const Home = ({ setScrollWidth }) => {
   const heroRef = useRef(null);
   const containerRef = useRef(null);
   const homeRef = useRef(null);
@@ -106,6 +106,6 @@ function Home({ setScrollWidth }) {
       </header>
     </div>
   );
-}
+};
 
 export default Home;
