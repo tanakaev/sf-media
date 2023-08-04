@@ -6,18 +6,17 @@ dotenv.config();
 export default async (req, res) => {
   const { name, vorname, email, telefonnummer, nachricht } = req.body;
 
-  let transporter = nodemailer.createTransport({
-    host: "mail.gmx.net",
-    port: 587,
-    tls: {
-      ciphers: "SSLv3",
-      rejectUnauthorized: false,
-    },
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
+  let transporter = nodemailer.createTransport(
+    smtpTransport({
+      host: "mail.gmx.com",
+      port: 587,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    })
+  );
 
   let mailOptions = {
     from: `${name} <${email}>`,
