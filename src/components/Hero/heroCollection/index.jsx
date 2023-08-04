@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useEffect, useRef, useState } from "react";
 import styles from "./HeroCollection.module.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -33,7 +33,7 @@ const HeroCollection = () => {
     setIsMobile(window.innerWidth <= 980);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -44,7 +44,7 @@ const HeroCollection = () => {
 
   const refs = images.map(() => useRef(null));
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     refs.forEach((ref, i) => {
       if (i >= visibleImages.length) {
         return;
