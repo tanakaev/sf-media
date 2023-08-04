@@ -12,17 +12,17 @@ app.use(express.json());
 app.post("/sendmail", async (req, res) => {
   const { name, vorname, email, telefonnummer, nachricht } = req.body;
 
-  var transporter = nodemailer.createTransport({
+  let transporter = nodemailer.createTransport({
     host: "mail.gmx.net",
     port: 587,
-    tls: {
-      ciphers: "SSLv3",
-      rejectUnauthorized: false,
-    },
-    debug: true,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
+    },
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false,
     },
   });
 
