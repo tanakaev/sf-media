@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useLayoutEffect, useEffect, useRef, useState } from "react";
 import styles from "./HeroCollection.module.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -27,41 +27,93 @@ const HeroCollection = () => {
     { src: picture_9, alt: "image_9" },
   ];
 
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.innerWidth <= 980
+  );
+
+  const handleResize = () => {
+    setIsMobile(typeof window !== "undefined" && window.innerWidth <= 980);
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, []);
+
   const wrapperRef = useRef(null);
   const refs = images.map(() => useRef(null));
 
   useEffect(() => {
-    window.addEventListener("load", () => {
-      gsap.set(
-        refs.map((ref) => ref.current),
-        { autoAlpha: 0 }
-      );
+    gsap.set(
+      refs.map((ref) => ref.current),
+      { autoAlpha: 0 }
+    );
 
+    if (isMobile) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: wrapperRef.current,
-          start: "top center",
-          end: "bottom center",
-          scrub: 2,
+          start: "top 60%",
+          end: "bottom 80%",
+          scrub: 1,
+          onUpdate: (self) => {
+            const velocity = self.getVelocity();
+            const yPercent = velocity / -300;
+
+            gsap.set(
+              refs.slice(1, 5).map((ref) => ref.current),
+              {
+                yPercent: yPercent,
+              }
+            );
+          },
         },
       });
 
       tl.fromTo(
+        refs[0].current,
+        { autoAlpha: 0, y: 50, scale: 0.9 },
+        { autoAlpha: 1, y: 0, scale: 1 }
+      );
+
+      tl.fromTo(
+        refs.slice(1, 5).map((ref) => ref.current),
+        { autoAlpha: 0, y: 50, scale: 0.9 },
+        { autoAlpha: 1, y: 0, scale: 1, stagger: 0.1 }
+      );
+
+      tl.fromTo(
+        refs.slice(5).map((ref) => ref.current),
+        { autoAlpha: 0 },
+        { autoAlpha: 1 }
+      );
+    } else {
+      // Efekt dla desktopu
+      gsap.set(
+        refs.map((ref) => ref.current),
+        { autoAlpha: 0.3 }
+      );
+
+      gsap.to(
         refs.map((ref) => ref.current),
         {
-          autoAlpha: 0,
-          y: 50,
-          scale: 0.9,
-        },
-        {
           autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          stagger: 0.1,
+          duration: 1,
+          ease: "ease.inOut",
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: "top 70%",
+            end: "bottom 75%",
+            scrub: 1,
+          },
         }
       );
-    });
-  }, [refs]);
+    }
+  }, [refs, isMobile]);
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
@@ -72,10 +124,7 @@ const HeroCollection = () => {
           src={image.src}
           alt={image.alt}
           style={{
-            display:
-              i < (window.innerWidth <= 980 ? 4 : images.length)
-                ? "block"
-                : "none",
+            display: i < (isMobile ? 4 : images.length) ? "block" : "none",
           }}
           loading="lazy"
         />
