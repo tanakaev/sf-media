@@ -1,3 +1,5 @@
+/* HeroCollection.css */
+
 .wrapper {
   width: 100%;
   height: auto;
@@ -13,9 +15,11 @@
   transform: translateX(0);
   clear: both;
   font-size: 0;
+  will-change: auto;
 }
 
 .wrapper img {
+  will-change: auto;
   width: clamp(200px, 16vw, 360px);
   height: auto;
   -o-object-fit: cover;

@@ -64,7 +64,6 @@ const HeroCollection = () => {
               start: "top center",
               end: "top bottom",
               scrub: 1,
-              markers: true,
             },
           }
         );

@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const homeRef = useRef(null);
+  const introRef = useRef(null);
   const heroRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -25,20 +26,21 @@ const Home = () => {
 
     if (isMobile) {
       // Przewijanie wertykalne na ekranach mniejszych niż 980px
-      tl.to(containerRef.current, {
-        y: () => `-${homeRef.current.getBoundingClientRect().height}px`,
+      tl.to(homeRef.current, {
+        y: () => `-${containerRef.current.getBoundingClientRect().height}px`,
       });
     } else {
       // Przewijanie horyzontalne na ekranach większych niż 980px
-      tl.to(heroRef.current, {
+      tl.to(homeRef.current, {
         x: () => `-${containerRef.current.getBoundingClientRect().width}px`,
+        y: () => `0px`,
       });
     }
   }, []);
 
   return (
     <div ref={homeRef} className={styles.home} id="startseite">
-      <div className={styles.intro}>
+      <div ref={introRef} className={styles.intro}>
         <h1 className={styles.title}>
           Social Media
           <br /> Marketing Agentur
@@ -49,11 +51,11 @@ const Home = () => {
           Werbekampagnen zu erstellen, um Ihre Marketingziele zu erreichen.
         </p>
       </div>
-      <header className={styles.hero} ref={heroRef}>
+      <div className={styles.hero} ref={heroRef}>
         <div className={styles.container} ref={containerRef}>
           <HeroCollection />
         </div>
-      </header>
+      </div>
     </div>
   );
 };
