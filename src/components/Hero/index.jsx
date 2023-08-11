@@ -7,7 +7,7 @@ import HeroCollection from "./heroCollection/index";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Home = ({ setScrollWidth }) => {
+function Home({ setScrollWidth }) {
   const heroRef = useRef(null);
   const containerRef = useRef(null);
   const homeRef = useRef(null);
@@ -26,6 +26,8 @@ const Home = ({ setScrollWidth }) => {
   }, []);
 
   useEffect(() => {
+    gsap.core.globals("ScrollTrigger", ScrollTrigger);
+
     const updateScrollWidth = () => {
       if (window.innerWidth <= 980) {
         setScrollWidth(0);
@@ -42,7 +44,7 @@ const Home = ({ setScrollWidth }) => {
     };
   }, [setScrollWidth]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const init = async () => {
       if (window.innerWidth <= 980) return;
 
@@ -104,6 +106,6 @@ const Home = ({ setScrollWidth }) => {
       </header>
     </div>
   );
-};
+}
 
 export default Home;

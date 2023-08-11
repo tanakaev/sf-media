@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./HeroCollection.module.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -31,32 +31,28 @@ const HeroCollection = () => {
   const refs = images.map(() => useRef(null));
 
   useEffect(() => {
+    const isMobile = window.innerWidth <= 980;
+
     gsap.set(
       refs.map((ref) => ref.current),
-      { autoAlpha: 0 }
+      { autoAlpha: 0, y: isMobile ? 50 : 0, scale: isMobile ? 0.9 : 1 }
     );
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: wrapperRef.current,
-        start: "top 60%",
-        end: "bottom 80%",
-        scrub: 1,
+        start: "top center",
+        end: isMobile ? "bottom 80%" : "right 80%",
+        scrub: 2,
       },
     });
 
     tl.fromTo(
       refs.map((ref) => ref.current),
-      {
-        autoAlpha: 0,
-        y: window.innerWidth <= 980 ? 50 : 0,
-        scale: window.innerWidth <= 980 ? 0.9 : 1,
-      },
+      { autoAlpha: 0 },
       {
         autoAlpha: 1,
-        y: 0,
-        scale: 1,
-        stagger: window.innerWidth <= 980 ? 0.1 : 0.2,
+        stagger: isMobile ? 0.1 : 0.2,
       }
     );
   }, [refs]);
