@@ -20,7 +20,7 @@ const Home = () => {
       scrollTrigger: {
         trigger: homeRef.current,
         scrub: 1,
-        pin: true,
+        pin: !isMobile, // Wyłącz "pin" na małych ekranach
       },
     });
 
@@ -33,7 +33,6 @@ const Home = () => {
       // Przewijanie horyzontalne na ekranach większych niż 980px
       tl.to(homeRef.current, {
         x: () => `-${containerRef.current.getBoundingClientRect().width}px`,
-        y: () => `0px`,
       });
     }
   }, []);
