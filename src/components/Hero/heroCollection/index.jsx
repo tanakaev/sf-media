@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import styles from "./HeroCollection.module.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -27,105 +27,71 @@ const HeroCollection = () => {
     { src: picture_9, alt: "image_9" },
   ];
 
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" && window.innerWidth <= 980
-  );
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 980);
 
   const handleResize = () => {
-    setIsMobile(typeof window !== "undefined" && window.innerWidth <= 980);
+    setIsMobile(window.innerWidth <= 980);
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
+  useLayoutEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  const wrapperRef = useRef(null);
+  const visibleImages = isMobile ? images.slice(0, 4) : images;
+
   const refs = images.map(() => useRef(null));
 
-  useEffect(() => {
-    gsap.set(
-      refs.map((ref) => ref.current),
-      { autoAlpha: 0 }
-    );
+  useLayoutEffect(() => {
+    refs.forEach((ref, i) => {
+      if (i >= visibleImages.length) {
+        return;
+      }
 
-    if (isMobile) {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: wrapperRef.current,
-          start: "top 60%",
-          end: "bottom 80%",
-          scrub: 1,
-          onUpdate: (self) => {
-            const velocity = self.getVelocity();
-            const yPercent = velocity / -300;
-
-            gsap.set(
-              refs.slice(1, 5).map((ref) => ref.current),
-              {
-                yPercent: yPercent,
-              }
-            );
-          },
-        },
-      });
-
-      tl.fromTo(
-        refs[0].current,
-        { autoAlpha: 0, y: 50, scale: 0.9 },
-        { autoAlpha: 1, y: 0, scale: 1 }
-      );
-
-      tl.fromTo(
-        refs.slice(1, 5).map((ref) => ref.current),
-        { autoAlpha: 0, y: 50, scale: 0.9 },
-        { autoAlpha: 1, y: 0, scale: 1, stagger: 0.1 }
-      );
-
-      tl.fromTo(
-        refs.slice(5).map((ref) => ref.current),
-        { autoAlpha: 0 },
-        { autoAlpha: 1 }
-      );
-    } else {
-      // Efekt dla desktopu
-      gsap.set(
-        refs.map((ref) => ref.current),
-        { autoAlpha: 0.3 }
-      );
-
-      gsap.to(
-        refs.map((ref) => ref.current),
-        {
-          autoAlpha: 1,
-          duration: 1,
-          ease: "ease.inOut",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 70%",
-            end: "bottom 75%",
-            scrub: 1,
-          },
-        }
-      );
-    }
-  }, [refs, isMobile]);
+      if (i === 0) {
+        gsap.set(ref.current, { autoAlpha: 1 });
+      } else if (i < 4 && isMobile) {
+        gsap.fromTo(
+          ref.current,
+          { autoAlpha: 0, y: 50, scale: 0.9 },
+          {
+            delay: i * 0.1,
+            duration: 0.4,
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            ease: "power3.inOut",
+            scrollTrigger: {
+              trigger: ref.current,
+              start: "top 60%",
+              end: "bottom 80%",
+              scrub: 1,
+              onUpdate: (self) => {
+                gsap.set(ref.current, {
+                  yPercent: self.getVelocity() / -300,
+                });
+              },
+            },
+          }
+        );
+      } else {
+        gsap.killTweensOf(ref.current);
+        gsap.set(ref.current, { autoAlpha: 1 });
+      }
+    });
+  }, [isMobile, refs]);
 
   return (
-    <div className={styles.wrapper} ref={wrapperRef}>
+    <div className={styles.wrapper}>
       {images.map((image, i) => (
         <img
-          key={i}
           ref={refs[i]}
+          key={i}
           src={image.src}
           alt={image.alt}
-          style={{
-            display: i < (isMobile ? 4 : images.length) ? "block" : "none",
-          }}
+          style={{ display: i < visibleImages.length ? "block" : "none" }}
           loading="lazy"
         />
       ))}
