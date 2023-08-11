@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useMemo, useLayoutEffect } from "react";
 import styles from "./HeroCollection.module.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,7 +14,7 @@ import picture_9 from "../../../assets/images/heroCollection/9.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HeroCollection = () => {
+const HeroCollection = ({ isMobile }) => {
   const images = [
     { src: picture_1, alt: "Opis obrazu 1" },
     { src: picture_2, alt: "Opis obrazu 2" },
@@ -27,22 +27,15 @@ const HeroCollection = () => {
     { src: picture_9, alt: "Opis obrazu 9" },
   ];
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 980);
   const wrapperRef = useRef(null);
-  const visibleImages = isMobile ? images.slice(0, 4) : images;
+  const visibleImages = useMemo(
+    () => (isMobile ? images.slice(0, 4) : images),
+    [isMobile]
+  );
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 980);
-    };
+    if (!wrapperRef.current) return;
 
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
     const tl = gsap.timeline();
 
     visibleImages.forEach((_, i) => {
@@ -55,19 +48,29 @@ const HeroCollection = () => {
           y: 0,
           ease: "power2.out",
         },
-        i * (isMobile ? 0.2 : 0.3) // opóźnienie
+        i * (isMobile ? 0.2 : 0.3)
       );
     });
 
-    if (!isMobile) {
-      ScrollTrigger.create({
-        trigger: wrapperRef.current,
-        start: "0% 100%",
-        end: "0% 60%",
-        animation: tl,
-        scrub: 2,
-      });
-    }
+    const scrollTriggerConfig = {
+      trigger: wrapperRef.current,
+      start: "0% 100%",
+      end: "0% 60%",
+      scrub: 2,
+    };
+
+    const scrollTrigger = ScrollTrigger.create({
+      ...scrollTriggerConfig,
+      animation: tl,
+    });
+
+    ScrollTrigger.refresh();
+
+    return () => {
+      if (scrollTrigger) {
+        scrollTrigger.kill();
+      }
+    };
   }, [isMobile, visibleImages]);
 
   return (
@@ -75,8 +78,8 @@ const HeroCollection = () => {
       className={`${styles.wrapper} ${isMobile ? styles.mobile : ""}`}
       ref={wrapperRef}
     >
-      {images.map((image, i) => (
-        <img key={i} src={image.src} alt={image.alt} />
+      {visibleImages.map((image, i) => (
+        <img key={i} src={image.src} alt={image.alt} className={styles.image} />
       ))}
     </div>
   );

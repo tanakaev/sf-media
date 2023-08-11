@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
+import styles from "./Services.module.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useScrollRotateAnimation from "../../hooks/useScrollRotateAnimation";
 import crosshair from "../../assets/images/decorations/crosshair.svg";
 import circles from "../../assets/images/decorations/circles.svg";
 import circleDashed from "../../assets/images/decorations/circleDashed.svg";
-import styles from "./Services.module.css";
 import ServicesItem from "./ServicesList/index";
 import werbungen from "../../assets/images/servicesIcons/werbungen.png";
 import betreuung from "../../assets/images/servicesIcons/betreuung.png";

@@ -10,15 +10,15 @@ import Contact from "./components/Contact/index";
 import Footer from "./components/Footer/index";
 import SocialNetworks from "./components/SocialNetworks";
 
-gsap.registerPlugin(ScrollTrigger);
-gsap.core.globals("ScrollTrigger", ScrollTrigger);
+// gsap.registerPlugin(ScrollTrigger);
+// gsap.core.globals("ScrollTrigger", ScrollTrigger);
 
 function App() {
   const [scrollWidth, setScrollWidth] = useState(0);
 
-  useLayoutEffect(() => {
-    ScrollTrigger.refresh();
-  }, []);
+  // useLayoutEffect(() => {
+  //   ScrollTrigger.refresh();
+  // }, []);
 
   return (
     <div className="app">

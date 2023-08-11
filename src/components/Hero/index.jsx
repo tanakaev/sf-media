@@ -1,5 +1,5 @@
 // Home.jsx
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Home.module.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,29 +13,52 @@ const Home = () => {
   const heroRef = useRef(null);
   const containerRef = useRef(null);
 
-  useEffect(() => {
-    const isMobile = window.innerWidth <= 980;
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 980);
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: homeRef.current,
-        scrub: 1,
-        pin: !isMobile, // Wyłącz "pin" na małych ekranach
-      },
-    });
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 980);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const tl = gsap.timeline();
 
     if (isMobile) {
-      // Przewijanie wertykalne na ekranach mniejszych niż 980px
       tl.to(homeRef.current, {
         y: () => `-${containerRef.current.getBoundingClientRect().height}px`,
       });
     } else {
-      // Przewijanie horyzontalne na ekranach większych niż 980px
       tl.to(homeRef.current, {
         x: () => `-${containerRef.current.getBoundingClientRect().width}px`,
       });
     }
-  }, []);
+
+    const handleResize = () => {
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    const scrollTriggerConfig = {
+      trigger: homeRef.current,
+      animation: tl,
+      scrub: 1,
+      pin: !isMobile,
+    };
+
+    const scrollTrigger = ScrollTrigger.create(scrollTriggerConfig);
+
+    return () => {
+      scrollTrigger.kill();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isMobile]);
 
   return (
     <div ref={homeRef} className={styles.home} id="startseite">
@@ -52,7 +75,7 @@ const Home = () => {
       </div>
       <div className={styles.hero} ref={heroRef}>
         <div className={styles.container} ref={containerRef}>
-          <HeroCollection />
+          <HeroCollection isMobile={isMobile} />
         </div>
       </div>
     </div>
