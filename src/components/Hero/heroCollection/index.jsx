@@ -31,30 +31,36 @@ const HeroCollection = () => {
   const refs = images.map(() => useRef(null));
 
   useEffect(() => {
-    const isMobile = window.innerWidth <= 980;
+    window.addEventListener("load", () => {
+      gsap.set(
+        refs.map((ref) => ref.current),
+        { autoAlpha: 0 }
+      );
 
-    gsap.set(
-      refs.map((ref) => ref.current),
-      { autoAlpha: 0, y: isMobile ? 50 : 0, scale: isMobile ? 0.9 : 1 }
-    );
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: wrapperRef.current,
+          start: "top center",
+          end: "bottom center",
+          scrub: 2,
+        },
+      });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: wrapperRef.current,
-        start: "top center",
-        end: isMobile ? "bottom 80%" : "right 80%",
-        scrub: 2,
-      },
+      tl.fromTo(
+        refs.map((ref) => ref.current),
+        {
+          autoAlpha: 0,
+          y: 50,
+          scale: 0.9,
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.1,
+        }
+      );
     });
-
-    tl.fromTo(
-      refs.map((ref) => ref.current),
-      { autoAlpha: 0 },
-      {
-        autoAlpha: 1,
-        stagger: isMobile ? 0.1 : 0.2,
-      }
-    );
   }, [refs]);
 
   return (
