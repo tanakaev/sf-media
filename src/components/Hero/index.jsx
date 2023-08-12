@@ -1,68 +1,45 @@
-// Home.jsx
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./Home.module.css";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import styles from "./Home.module.css";
 import HeroCollection from "./heroCollection/index";
+import useIsMobile from "../../hooks/useIsMobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const homeRef = useRef(null);
-  const introRef = useRef(null);
-  const heroRef = useRef(null);
   const containerRef = useRef(null);
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 980);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 980);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    const tl = gsap.timeline();
+    if (!isMobile) {
+      // Only run this code on desktop
+      const tl = gsap.timeline();
+      const dimension = "width";
+      const direction = "x";
 
-    if (isMobile) {
       tl.to(homeRef.current, {
-        y: () => `-${containerRef.current.getBoundingClientRect().height}px`,
+        [direction]: () =>
+          `-${containerRef.current.getBoundingClientRect()[dimension]}px`,
       });
-    } else {
-      tl.to(homeRef.current, {
-        x: () => `-${containerRef.current.getBoundingClientRect().width}px`,
+
+      const scrollTrigger = ScrollTrigger.create({
+        trigger: homeRef.current,
+        animation: tl,
+        scrub: 1,
+        pin: true,
       });
+
+      return () => {
+        scrollTrigger.kill();
+      };
     }
-
-    const handleResize = () => {
-      ScrollTrigger.refresh();
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    const scrollTriggerConfig = {
-      trigger: homeRef.current,
-      animation: tl,
-      scrub: 1,
-      pin: !isMobile,
-    };
-
-    const scrollTrigger = ScrollTrigger.create(scrollTriggerConfig);
-
-    return () => {
-      scrollTrigger.kill();
-      window.removeEventListener("resize", handleResize);
-    };
   }, [isMobile]);
 
   return (
     <div ref={homeRef} className={styles.home} id="startseite">
-      <div ref={introRef} className={styles.intro}>
+      <div className={styles.intro}>
         <h1 className={styles.title}>
           Social Media
           <br /> Marketing Agentur
@@ -73,7 +50,7 @@ const Home = () => {
           Werbekampagnen zu erstellen, um Ihre Marketingziele zu erreichen.
         </p>
       </div>
-      <div className={styles.hero} ref={heroRef}>
+      <div className={styles.hero}>
         <div className={styles.container} ref={containerRef}>
           <HeroCollection isMobile={isMobile} />
         </div>

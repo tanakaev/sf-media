@@ -1,22 +1,26 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import useScrollRotateAnimation from "../../hooks/useScrollRotateAnimation";
 import tick from "../../assets/images/others/tick.svg";
 import crosshair from "../../assets/images/decorations/crosshair.svg";
 import circleDashed from "../../assets/images/decorations/circleDashed.svg";
 import styles from "./WhyUs.module.css";
+import useIsMobile from "../../hooks/useIsMobile";
+import useScrollRotateAnimation from "../../hooks/useScrollRotateAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function WhyUs({ scrollWidth }) {
-  useScrollRotateAnimation(styles.circleDashed);
-
+const WhyUs = () => {
+  const isMobile = useIsMobile();
   const decoWordRef = useRef(null);
   const advantagesListRef = useRef(null);
   const colorSpanRef = useRef(null);
+  useScrollRotateAnimation(styles.circleDashed);
 
   useEffect(() => {
+    const startTrigger = isMobile ? "top 90%" : "top 70%";
+    const endTrigger = isMobile ? "bottom 60%" : "top 20%";
+
     const advantagesList = advantagesListRef.current;
     const children = Array.from(advantagesList.children).slice(1);
 
@@ -31,8 +35,8 @@ function WhyUs({ scrollWidth }) {
         opacity: 0.02,
         scrollTrigger: {
           trigger: decoWord,
-          start: `50%+=${scrollWidth} 70%`,
-          end: `70%-=${scrollWidth} 20%`,
+          start: startTrigger,
+          end: endTrigger,
           scrub: 1,
         },
       }
@@ -45,8 +49,8 @@ function WhyUs({ scrollWidth }) {
         autoAlpha: 1,
         scrollTrigger: {
           trigger: colorSpan,
-          start: `50%+=${scrollWidth} 70%`,
-          end: `70%-=${scrollWidth} 20%`,
+          start: startTrigger,
+          end: endTrigger,
           scrub: 1,
         },
       }
@@ -55,27 +59,20 @@ function WhyUs({ scrollWidth }) {
     children.forEach((child, index) => {
       gsap.fromTo(
         child,
-        { y: 100, autoAlpha: 0 },
+        { y: 50, autoAlpha: 0 },
         {
           y: 0,
           autoAlpha: 1,
           scrollTrigger: {
             trigger: child,
-            start: `50%+=${scrollWidth} 70%`,
-            end: `70%-=${scrollWidth} 20%`,
+            start: startTrigger,
+            end: endTrigger,
             scrub: 1,
           },
         }
       );
     });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-      gsap.set([decoWord, colorSpan, ...children], {
-        clearProps: "all",
-      });
-    };
-  }, [scrollWidth]);
+  }, [isMobile]);
 
   return (
     <section className={styles.whyUs} id="warum-wir">
@@ -95,9 +92,9 @@ function WhyUs({ scrollWidth }) {
             Media
           </p>
           <h2>
-            Konvertieren Sie Ihre <br />{" "}
+            Konvertieren Sie Ihre <br />
             <span className="color" ref={colorSpanRef}>
-              Followers{" "}
+              Followers
             </span>
             in Leads
           </h2>
@@ -153,6 +150,6 @@ function WhyUs({ scrollWidth }) {
       </div>
     </section>
   );
-}
+};
 
 export default WhyUs;

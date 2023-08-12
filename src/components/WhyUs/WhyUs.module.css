@@ -231,6 +231,7 @@ p.decoWord {
   .whyUsIntro p,
   .whyUsIntro h2 {
     width: 100%;
+    word-wrap: break-word;
   }
 
   p.decoWord {
@@ -260,7 +261,7 @@ p.decoWord {
   }
 
   .circleDashed {
-    top: -20%;
+    top: -25%;
     left: 10%;
     scale: 0.8;
   }

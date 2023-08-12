@@ -1,9 +1,5 @@
 import React from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./SolutonItem.module.css";
-
-gsap.registerPlugin(ScrollTrigger);
 
 function SolutionItem({ title, description }) {
   return (

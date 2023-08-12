@@ -8,11 +8,13 @@ import meta from "../../assets/images/socialBelt/meta.svg";
 import tiktok from "../../assets/images/socialBelt/tiktok.svg";
 import twitter from "../../assets/images/socialBelt/twitter.svg";
 import youtube from "../../assets/images/socialBelt/youtube.svg";
+import useIsMobile from "../../hooks/useIsMobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function SocialNetworks({ scrollWidth }) {
+const SocialNetworks = () => {
   const containerRef = useRef(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -22,8 +24,8 @@ function SocialNetworks({ scrollWidth }) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: child,
-          start: () => `20%+=${scrollWidth} 80%`,
-          end: `20%-=${scrollWidth} 20%`,
+          start: isMobile ? "top 90%" : "top 80%",
+          end: isMobile ? "bottom 60%" : "top 20%",
           scrub: 1,
         },
       });
@@ -41,7 +43,7 @@ function SocialNetworks({ scrollWidth }) {
         .to(child, { y: -10, yoyo: true, repeat: 1, duration: 0.2 }, "+=0.2")
         .to(child, { y: 0, duration: 0.2 });
     });
-  }, [scrollWidth]);
+  }, [isMobile]);
 
   return (
     <div className={styles.socialNetworks} ref={containerRef}>
@@ -65,6 +67,6 @@ function SocialNetworks({ scrollWidth }) {
       </div>
     </div>
   );
-}
+};
 
 export default SocialNetworks;

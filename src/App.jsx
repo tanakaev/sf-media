@@ -1,6 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
 import Navigation from "./components/Navigation/index";
 import Home from "./components/Hero/index";
 import Solutions from "./components/Solutions/index";
@@ -10,25 +8,16 @@ import Contact from "./components/Contact/index";
 import Footer from "./components/Footer/index";
 import SocialNetworks from "./components/SocialNetworks";
 
-// gsap.registerPlugin(ScrollTrigger);
-// gsap.core.globals("ScrollTrigger", ScrollTrigger);
-
 function App() {
-  const [scrollWidth, setScrollWidth] = useState(0);
-
-  // useLayoutEffect(() => {
-  //   ScrollTrigger.refresh();
-  // }, []);
-
   return (
     <div className="app">
       <Navigation />
       <main>
-        <Home setScrollWidth={setScrollWidth} />
-        <Solutions scrollWidth={scrollWidth} />
-        <SocialNetworks scrollWidth={scrollWidth} />
-        <WhyUs scrollWidth={scrollWidth} />
-        <Services scrollWidth={scrollWidth} />
+        <Home />
+        <Solutions />
+        <SocialNetworks />
+        <WhyUs />
+        <Services />
         <Contact />
       </main>
       <Footer />

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useMemo, useLayoutEffect } from "react";
-import styles from "./HeroCollection.module.css";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import styles from "./HeroCollection.module.css";
 import picture_1 from "../../../assets/images/heroCollection/1.webp";
 import picture_2 from "../../../assets/images/heroCollection/2.webp";
 import picture_3 from "../../../assets/images/heroCollection/3.webp";
@@ -16,70 +16,70 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HeroCollection = ({ isMobile }) => {
   const images = [
-    { src: picture_1, alt: "Opis obrazu 1" },
-    { src: picture_2, alt: "Opis obrazu 2" },
-    { src: picture_3, alt: "Opis obrazu 3" },
-    { src: picture_4, alt: "Opis obrazu 4" },
-    { src: picture_5, alt: "Opis obrazu 5" },
-    { src: picture_6, alt: "Opis obrazu 6" },
-    { src: picture_7, alt: "Opis obrazu 7" },
-    { src: picture_8, alt: "Opis obrazu 8" },
-    { src: picture_9, alt: "Opis obrazu 9" },
+    picture_1,
+    picture_2,
+    picture_3,
+    picture_4,
+    picture_5,
+    picture_6,
+    picture_7,
+    picture_8,
+    picture_9,
   ];
 
   const wrapperRef = useRef(null);
-  const visibleImages = useMemo(
-    () => (isMobile ? images.slice(0, 4) : images),
-    [isMobile]
-  );
+  const displayImages = isMobile ? images.slice(0, 4) : images;
 
   useEffect(() => {
-    if (!wrapperRef.current) return;
-
     const tl = gsap.timeline();
+    const duration = isMobile ? 0.9 : 0.5;
+    const direction = isMobile ? 100 : 30;
+    const staggerDelay = isMobile ? 0.6 : 0.4;
 
-    visibleImages.forEach((_, i) => {
+    displayImages.forEach((_, i) => {
+      const initialScale = isMobile ? 0.7 : 1;
+      // Ustawiamy początkową wartość autoAlpha na 0.8 dla pierwszego obrazka, a dla reszty na 0
+      const initialAutoAlpha = i === 0 ? 0.5 : 0;
       tl.fromTo(
         wrapperRef.current.children[i],
-        { autoAlpha: 0, y: isMobile ? 10 : 30 },
+        { autoAlpha: initialAutoAlpha, y: direction, scale: initialScale },
         {
-          duration: isMobile ? 0.2 : 0.3,
+          duration: duration,
           autoAlpha: 1,
           y: 0,
+          scale: 1,
           ease: "power2.out",
         },
-        i * (isMobile ? 0.2 : 0.3)
+        i * staggerDelay
       );
     });
 
-    const scrollTriggerConfig = {
-      trigger: wrapperRef.current,
-      start: "0% 100%",
-      end: "0% 60%",
-      scrub: 2,
-    };
-
     const scrollTrigger = ScrollTrigger.create({
-      ...scrollTriggerConfig,
       animation: tl,
+      trigger: wrapperRef.current,
+      start: isMobile ? "top bottom" : "top 100%",
+      end: isMobile ? "bottom top" : "bottom 60%",
+      scrub: 1,
     });
 
-    ScrollTrigger.refresh();
-
     return () => {
-      if (scrollTrigger) {
-        scrollTrigger.kill();
-      }
+      scrollTrigger.kill();
+      tl.kill();
     };
-  }, [isMobile, visibleImages]);
+  }, [isMobile, displayImages]);
 
   return (
     <div
-      className={`${styles.wrapper} ${isMobile ? styles.mobile : ""}`}
       ref={wrapperRef}
+      className={isMobile ? styles.wrapperMobile : styles.wrapper}
     >
-      {visibleImages.map((image, i) => (
-        <img key={i} src={image.src} alt={image.alt} className={styles.image} />
+      {displayImages.map((src, i) => (
+        <img
+          key={i}
+          src={src}
+          alt={`Hero Image ${i + 1}`}
+          className={styles.image}
+        />
       ))}
     </div>
   );

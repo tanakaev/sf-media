@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import styles from "./Services.module.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import useScrollRotateAnimation from "../../hooks/useScrollRotateAnimation";
+import styles from "./Services.module.css";
 import crosshair from "../../assets/images/decorations/crosshair.svg";
 import circles from "../../assets/images/decorations/circles.svg";
 import circleDashed from "../../assets/images/decorations/circleDashed.svg";
@@ -13,10 +12,13 @@ import seo_google from "../../assets/images/servicesIcons/seo-google.png";
 import email_marketing from "../../assets/images/servicesIcons/email-marketing.png";
 import copywriting from "../../assets/images/servicesIcons/copywriting.png";
 import landingpages from "../../assets/images/servicesIcons/landingpages.png";
+import useScrollRotateAnimation from "../../hooks/useScrollRotateAnimation";
+import useIsMobile from "../../hooks/useIsMobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Services({ scrollWidth }) {
+function Services() {
+  const isMobile = useIsMobile();
   useScrollRotateAnimation(styles.circleDashed);
 
   const decoWordRef = useRef(null);
@@ -24,6 +26,8 @@ function Services({ scrollWidth }) {
   const servicesListRef = useRef(null);
 
   useEffect(() => {
+    const startTrigger = isMobile ? "top 90%" : "top 80%";
+    const endTrigger = isMobile ? "bottom 60%" : "top 20%";
     const decoWord = decoWordRef.current;
     const colorSpan = colorSpanRef.current;
     const servicesList = servicesListRef.current;
@@ -31,8 +35,8 @@ function Services({ scrollWidth }) {
     gsap.from(decoWord, {
       scrollTrigger: {
         trigger: decoWord,
-        start: `50%+=${scrollWidth} 70%`,
-        end: `70%-=${scrollWidth} 20%`,
+        start: startTrigger,
+        end: endTrigger,
         scrub: 1,
       },
       y: 50,
@@ -43,8 +47,8 @@ function Services({ scrollWidth }) {
     gsap.from(colorSpan, {
       scrollTrigger: {
         trigger: colorSpan,
-        start: `50%+=${scrollWidth} 70%`,
-        end: `70%-=${scrollWidth} 20%`,
+        start: startTrigger,
+        end: endTrigger,
         scrub: 1,
       },
       y: 50,
@@ -58,8 +62,8 @@ function Services({ scrollWidth }) {
       gsap.from(child, {
         scrollTrigger: {
           trigger: child,
-          start: `50%+=${scrollWidth} 70%`,
-          end: `70%-=${scrollWidth} 20%`,
+          start: "top bottom",
+          end: "center bottom",
           scrub: 1,
         },
         y: 50,
@@ -74,7 +78,7 @@ function Services({ scrollWidth }) {
         clearProps: "all",
       });
     };
-  }, [scrollWidth]);
+  }, [isMobile]);
 
   return (
     <section className={styles.services} id="dienstleistungen">

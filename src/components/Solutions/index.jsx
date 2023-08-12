@@ -1,32 +1,35 @@
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import useScrollRotateAnimation from "../../hooks/useScrollRotateAnimation";
 import crosshair from "../../assets/images/decorations/crosshair.svg";
 import circles from "../../assets/images/decorations/circles.svg";
 import circleDashed from "../../assets/images/decorations/circleDashed.svg";
 import styles from "./Solutions.module.css";
 import SolutionItem from "./SolutionItems/index";
+import useIsMobile from "../../hooks/useIsMobile";
+import useScrollRotateAnimation from "../../hooks/useScrollRotateAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Solutions({ scrollWidth }) {
-  useScrollRotateAnimation(styles.circleDashed);
-
+const Solutions = () => {
   const solutionsListRef = useRef(null);
   const decoWordRef = useRef(null);
   const colorSpanRef = useRef(null);
   const descriptionIntroRef = useRef(null);
+  const isMobile = useIsMobile();
+  useScrollRotateAnimation(styles.circleDashed);
 
   useEffect(() => {
     const solutionsList = solutionsListRef.current;
     const children = Array.from(solutionsList.children);
-
     const decoWord = decoWordRef.current;
     const colorSpan = colorSpanRef.current;
     const descriptionIntro = descriptionIntroRef.current;
 
-    children.forEach((child, index) => {
+    const startTrigger = isMobile ? "top 90%" : "top 80%";
+    const endTrigger = isMobile ? "bottom 60%" : "top 30%";
+
+    children.forEach((child) => {
       gsap.fromTo(
         child,
         { autoAlpha: 0, y: 100 },
@@ -35,8 +38,8 @@ function Solutions({ scrollWidth }) {
           y: 0,
           scrollTrigger: {
             trigger: child,
-            start: () => `50%+=${scrollWidth} 70%`,
-            end: `70%-=${scrollWidth} 20%`,
+            start: startTrigger,
+            end: endTrigger,
             scrub: 1,
           },
         }
@@ -51,8 +54,8 @@ function Solutions({ scrollWidth }) {
         opacity: 0.02,
         scrollTrigger: {
           trigger: decoWord,
-          start: `50%+=${scrollWidth} 70%`,
-          end: `70%-=${scrollWidth} 20%`,
+          start: "top 80%",
+          end: "top 30%",
           scrub: 1,
         },
       }
@@ -65,8 +68,8 @@ function Solutions({ scrollWidth }) {
         autoAlpha: 1,
         scrollTrigger: {
           trigger: colorSpan,
-          start: `50%+=${scrollWidth} 70%`,
-          end: `70%-=${scrollWidth} 20%`,
+          start: "top 80%",
+          end: "top 30%",
           scrub: 1,
         },
       }
@@ -74,14 +77,14 @@ function Solutions({ scrollWidth }) {
 
     gsap.fromTo(
       descriptionIntro,
-      { y: 100, autoAlpha: 0 },
+      { y: 50, autoAlpha: 0 },
       {
         y: 0,
         autoAlpha: 1,
         scrollTrigger: {
           trigger: descriptionIntro,
-          start: `50%+=${scrollWidth} 70%`,
-          end: `70%-=${scrollWidth} 20%`,
+          start: "top center",
+          end: "center bottom",
           scrub: 1,
         },
       }
@@ -93,7 +96,7 @@ function Solutions({ scrollWidth }) {
         clearProps: "all",
       });
     };
-  }, [scrollWidth]);
+  }, [isMobile]);
 
   return (
     <div className={styles.solutions} id="losungen">
@@ -152,6 +155,6 @@ function Solutions({ scrollWidth }) {
       </div>
     </div>
   );
-}
+};
 
 export default Solutions;
