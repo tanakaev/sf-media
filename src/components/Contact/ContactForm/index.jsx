@@ -10,6 +10,7 @@ function ContactForm() {
   const SITE_KEY = import.meta.env.VITE_REACT_APP_SITE_KEY;
 
   const captchaRef = useRef(null);
+  const formRef = useRef(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -34,7 +35,7 @@ function ContactForm() {
 
     const recaptchaValue = captchaRef.current.getValue();
     if (!recaptchaValue) {
-      console.error("Please validate the reCAPTCHA.");
+      alert("Please validate the reCAPTCHA.");
       setIsSubmitting(false);
       return;
     }
@@ -51,6 +52,7 @@ function ContactForm() {
       if (response.status === 200) {
         setIsFormSubmitted(true);
         setIsFormError(false);
+        formRef.current.reset();
         setFormData({
           name: "",
           vorname: "",
@@ -62,15 +64,20 @@ function ContactForm() {
         setIsFormError(true);
       }
     } catch (error) {
-      console.error(error);
       setIsFormError(true);
+      alert("An error occurred. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <form className={styles.form_fields} onSubmit={handleSubmit} method="POST">
+    <form
+      ref={formRef}
+      className={styles.form_fields}
+      onSubmit={handleSubmit}
+      method="POST"
+    >
       <div className={styles.row_fields}>
         <div className={styles.form_field}>
           <input

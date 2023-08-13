@@ -12,9 +12,6 @@ const transporter = nodemailer.createTransport({
     user: process.env.VITE_REACT_APP_EMAIL_USERNAME,
     pass: process.env.VITE_REACT_APP_EMAIL_PASSWORD,
   },
-  tls: {
-    ciphers: "SSLv3",
-  },
 });
 
 const createMailOptions = (name, vorname, email, telefonnummer, nachricht) => ({
