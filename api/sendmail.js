@@ -63,7 +63,7 @@ export default async (req, res) => {
     `,
   };
 
-  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`;
+  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.REACT_APP_SECRET_KEY}&response=${recaptchaToken}`;
   try {
     const response = await axios.post(verificationURL);
     if (!response.data.success) {

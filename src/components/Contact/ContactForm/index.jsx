@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./ContactForm.module.css";
+import ReCAPTCHA from "react-google-recaptcha";
 
 function ContactForm() {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isFormError, setIsFormError] = useState(false);
+
+  const SITE_KEY = process.env.REACT_APP_SITE_KEY;
+
+  const captchaRef = useRef(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -24,14 +29,9 @@ function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!grecaptcha) {
-      console.error("reCAPTCHA not loaded yet.");
-      return;
-    }
-
-    const recaptchaResponse = grecaptcha.getResponse();
-    if (!recaptchaResponse) {
-      console.error("reCAPTCHA not validated.");
+    const recaptchaValue = captchaRef.current.getValue();
+    if (!recaptchaValue) {
+      console.error("Please validate the reCAPTCHA.");
       return;
     }
 
@@ -41,10 +41,7 @@ function ContactForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-          recaptchaToken: recaptchaResponse,
-        }),
+        body: JSON.stringify({ ...formData, recaptchaToken: recaptchaValue }),
       });
 
       if (response.status === 200) {
@@ -136,12 +133,11 @@ function ContactForm() {
           Etwas stimmt nicht. Bitte versuchen Sie es später erneut.
         </div>
       )}
-      <div
-        className="g-recaptcha"
-        data-sitekey="6LfDTqInAAAAAEArVReO8FYQGirKeD1x5ri22Y4U"
-      ></div>
+      <ReCAPTCHA className="recaptcha" sitekey={SITE_KEY} ref={captchaRef} />
       <div className={styles.btn_send}>
-        <button type="submit">Senden</button>
+        <button type="submit" value="Submit">
+          Senden
+        </button>
       </div>
     </form>
   );
