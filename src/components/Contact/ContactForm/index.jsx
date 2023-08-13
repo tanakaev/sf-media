@@ -24,10 +24,12 @@ function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const token = grecaptcha.getResponse();
+    const recaptchaValue = document.getElementById(
+      "g-recaptcha-response"
+    ).value;
 
-    if (!token) {
-      console.error("reCAPTCHA not completed.");
+    if (!recaptchaValue) {
+      console.error("reCAPTCHA not validated.");
       return;
     }
 
@@ -37,7 +39,7 @@ function ContactForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...formData, recaptchaToken: token }),
+        body: JSON.stringify({ ...formData, recaptchaToken: recaptchaValue }),
       });
 
       if (response.status === 200) {
