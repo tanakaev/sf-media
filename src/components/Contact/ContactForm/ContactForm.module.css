@@ -7,17 +7,8 @@
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-box-align: space-between;
-  -ms-flex-align: space-between;
-  -webkit-align-items: space-between;
   align-items: space-between;
-  -ms-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   width: 685px;
   min-width: 320px;
@@ -35,14 +26,7 @@
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  -webkit-flex-direction: column;
   flex-direction: column;
-  -webkit-box-align: start;
-  -ms-flex-align: start;
-  -webkit-align-items: flex-start;
   align-items: flex-start;
 }
 
@@ -54,7 +38,7 @@
 .form_input {
   border: none;
   border-bottom: 1px solid #fff;
-  font-family: var(--font-poppins);
+  font-family: var(--font-poppins), sans-serif;
   font-size: 1.6rem;
   color: #fff;
   background-color: transparent;
@@ -80,8 +64,6 @@
   border: 1px solid transparent;
   background-color: #fff;
   color: #000;
-  -webkit-transition: 0.25s ease;
-  -o-transition: 0.25s ease;
   transition: 0.25s ease;
   cursor: pointer;
 }
@@ -99,6 +81,17 @@
   text-align: left;
 }
 
+.form_submitting {
+  padding: 24px 0;
+  font-size: 1.6rem;
+  color: #f7d081;
+  font-family: var(--font-poppins), sans-serif;
+}
+
+.recaptcha_container {
+  margin-top: 24px;
+}
+
 @media screen and (max-width: 767px) {
   .contact_form {
     padding-right: 2rem;
@@ -110,10 +103,6 @@
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    -webkit-flex-direction: column;
     flex-direction: column;
   }
 
@@ -122,18 +111,8 @@
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    -webkit-flex-direction: column;
     flex-direction: column;
-    -webkit-box-align: space-between;
-    -ms-flex-align: space-between;
-    -webkit-align-items: space-between;
     align-items: space-between;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
     justify-content: center;
     width: 100%;
     min-width: auto;
@@ -145,10 +124,6 @@
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    -webkit-flex-direction: row;
     flex-direction: row;
   }
 

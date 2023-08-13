@@ -6,6 +6,7 @@ function ContactForm() {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isFormError, setIsFormError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showRecaptcha, setShowRecaptcha] = useState(false); // Nowy stan
 
   const SITE_KEY = import.meta.env.VITE_REACT_APP_SITE_KEY;
 
@@ -21,6 +22,7 @@ function ContactForm() {
   });
 
   const handleInputChange = (event) => {
+    setShowRecaptcha(true); // Pokaż reCAPTCHA po wpisaniu wartości
     const { id, value } = event.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -126,6 +128,7 @@ function ContactForm() {
       </div>
       <div className={styles.form_field}>
         <textarea
+          type="text"
           id="nachricht"
           value={formData.nachricht}
           onChange={handleInputChange}
@@ -146,7 +149,11 @@ function ContactForm() {
           Etwas stimmt nicht. Bitte versuchen Sie es später erneut.
         </div>
       )}
-      <ReCAPTCHA sitekey={SITE_KEY} ref={captchaRef} />
+      {showRecaptcha && (
+        <div className={styles.recaptcha_container}>
+          <ReCAPTCHA sitekey={SITE_KEY} ref={captchaRef} />
+        </div>
+      )}
       <div className={styles.btn_send}>
         <button type="submit" value="Submit" disabled={isSubmitting}>
           Senden
