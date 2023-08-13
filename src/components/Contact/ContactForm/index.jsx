@@ -4,7 +4,6 @@ import styles from "./ContactForm.module.css";
 function ContactForm() {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isFormError, setIsFormError] = useState(false);
-  const [isRecaptchaLoaded, setIsRecaptchaLoaded] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -13,12 +12,6 @@ function ContactForm() {
     telefonnummer: "",
     nachricht: "",
   });
-
-  useEffect(() => {
-    if (typeof grecaptcha !== "undefined") {
-      setIsRecaptchaLoaded(true);
-    }
-  }, []);
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -30,17 +23,15 @@ function ContactForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!isRecaptchaLoaded) {
-      console.error("reCAPTCHA not loaded yet.");
+
+    const token = grecaptcha.getResponse();
+
+    if (!token) {
+      console.error("reCAPTCHA not completed.");
       return;
     }
 
     try {
-      const token = await grecaptcha.enterprise.execute(
-        "6LfDTqInAAAAAEArVReO8FYQGirKeD1x5ri22Y4U",
-        { action: "SUBMIT" }
-      );
-
       const response = await fetch("https://www.media-sf.de/api/sendmail", {
         method: "POST",
         headers: {
@@ -138,6 +129,10 @@ function ContactForm() {
           Etwas stimmt nicht. Bitte versuchen Sie es später erneut.
         </div>
       )}
+      <div
+        className="g-recaptcha"
+        data-sitekey="6LfDTqInAAAAAEArVReO8FYQGirKeD1x5ri22Y4U"
+      ></div>
       <div className={styles.btn_send}>
         <button type="submit">Senden</button>
       </div>
