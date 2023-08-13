@@ -1,22 +1,23 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import axios from "axios";
 
 dotenv.config();
 
 export default async (req, res) => {
-  const { name, vorname, email, telefonnummer, nachricht } = req.body;
+  const { name, vorname, email, telefonnummer, nachricht, recaptchaToken } =
+    req.body;
 
   let transporter = nodemailer.createTransport({
-    host: "mail.gmx.net",
-    port: 587,
-    secure: false,
+    host: "smtpout.secureserver.net",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
     },
     tls: {
-      // do not fail on invalid certs
-      rejectUnauthorized: false,
+      ciphers: "SSLv3",
     },
   });
 
@@ -61,6 +62,17 @@ export default async (req, res) => {
         </div>
     `,
   };
+
+  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`;
+  try {
+    const response = await axios.post(verificationURL);
+    if (!response.data.success) {
+      return res.status(400).send({ error: "reCAPTCHA verification failed." });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({ error: "Error verifying reCAPTCHA." });
+  }
 
   try {
     await transporter.sendMail(mailOptions);

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./ContactForm.module.css";
 
 function ContactForm() {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isFormError, setIsFormError] = useState(false);
+  const [isRecaptchaLoaded, setIsRecaptchaLoaded] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -12,6 +13,12 @@ function ContactForm() {
     telefonnummer: "",
     nachricht: "",
   });
+
+  useEffect(() => {
+    if (typeof grecaptcha !== "undefined") {
+      setIsRecaptchaLoaded(true);
+    }
+  }, []);
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -23,13 +30,23 @@ function ContactForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!isRecaptchaLoaded) {
+      console.error("reCAPTCHA not loaded yet.");
+      return;
+    }
+
     try {
+      const token = await grecaptcha.enterprise.execute(
+        "6LfDTqInAAAAAEArVReO8FYQGirKeD1x5ri22Y4U",
+        { action: "SUBMIT" }
+      );
+
       const response = await fetch("https://www.media-sf.de/api/sendmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, recaptchaToken: token }),
       });
 
       if (response.status === 200) {
