@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./ContactForm.module.css";
 
 function ContactForm() {
@@ -24,11 +24,13 @@ function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const recaptchaValue = document.getElementById(
-      "g-recaptcha-response"
-    ).value;
+    if (!grecaptcha) {
+      console.error("reCAPTCHA not loaded yet.");
+      return;
+    }
 
-    if (!recaptchaValue) {
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (!recaptchaResponse) {
       console.error("reCAPTCHA not validated.");
       return;
     }
@@ -39,7 +41,10 @@ function ContactForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...formData, recaptchaToken: recaptchaValue }),
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken: recaptchaResponse,
+        }),
       });
 
       if (response.status === 200) {
