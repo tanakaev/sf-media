@@ -1,6 +1,7 @@
 import express from "express";
+import dotenv from "dotenv";
 import cors from "cors";
-import sendMail from "./sendmail";
+import sendMail from "./api/sendmail.js";
 
 dotenv.config();
 
