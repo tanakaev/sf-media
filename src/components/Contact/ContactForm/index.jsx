@@ -5,8 +5,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 function ContactForm() {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isFormError, setIsFormError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const SITE_KEY = process.env.REACT_APP_SITE_KEY;
+  const SITE_KEY = import.meta.env.VITE_REACT_APP_SITE_KEY;
 
   const captchaRef = useRef(null);
 
@@ -29,9 +30,12 @@ function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    setIsSubmitting(true);
+
     const recaptchaValue = captchaRef.current.getValue();
     if (!recaptchaValue) {
       console.error("Please validate the reCAPTCHA.");
+      setIsSubmitting(false);
       return;
     }
 
@@ -47,20 +51,21 @@ function ContactForm() {
       if (response.status === 200) {
         setIsFormSubmitted(true);
         setIsFormError(false);
+        setFormData({
+          name: "",
+          vorname: "",
+          email: "",
+          telefonnummer: "",
+          nachricht: "",
+        });
       } else {
         setIsFormError(true);
       }
-
-      setFormData({
-        name: "",
-        vorname: "",
-        email: "",
-        telefonnummer: "",
-        nachricht: "",
-      });
     } catch (error) {
       console.error(error);
       setIsFormError(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -123,6 +128,7 @@ function ContactForm() {
           required
         ></textarea>
       </div>
+      {isSubmitting && <div className={styles.form_submitting}>Senden...</div>}
       {isFormSubmitted && !isFormError && (
         <div className={styles.form_success}>
           Vielen Dank für das Absenden des Formulars!
@@ -133,9 +139,9 @@ function ContactForm() {
           Etwas stimmt nicht. Bitte versuchen Sie es später erneut.
         </div>
       )}
-      <ReCAPTCHA className="recaptcha" sitekey={SITE_KEY} ref={captchaRef} />
+      <ReCAPTCHA sitekey={SITE_KEY} ref={captchaRef} />
       <div className={styles.btn_send}>
-        <button type="submit" value="Submit">
+        <button type="submit" value="Submit" disabled={isSubmitting}>
           Senden
         </button>
       </div>

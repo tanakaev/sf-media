@@ -4,28 +4,24 @@ import axios from "axios";
 
 dotenv.config();
 
-export default async (req, res) => {
-  const { name, vorname, email, telefonnummer, nachricht, recaptchaToken } =
-    req.body;
+const transporter = nodemailer.createTransport({
+  host: "smtpout.secureserver.net",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.VITE_REACT_APP_EMAIL_USERNAME,
+    pass: process.env.VITE_REACT_APP_EMAIL_PASSWORD,
+  },
+  tls: {
+    ciphers: "SSLv3",
+  },
+});
 
-  let transporter = nodemailer.createTransport({
-    host: "smtpout.secureserver.net",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-    tls: {
-      ciphers: "SSLv3",
-    },
-  });
-
-  let mailOptions = {
-    from: `${name} <${email}>`,
-    to: process.env.RECEIVING_EMAIL,
-    subject: "Neue Textnachricht für SF Media",
-    html: `
+const createMailOptions = (name, vorname, email, telefonnummer, nachricht) => ({
+  from: `${name} <${email}>`,
+  to: process.env.VITE_REACT_APP_RECEIVING_EMAIL,
+  subject: "Neue Textnachricht für SF Media",
+  html: `
         <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto;">
             <div style="background-color: #f8f9fa; padding: 20px; text-align: center; border-bottom: 1px solid #e9ecef;">
                 <h2 style="margin-bottom: 0;">Neue Nachricht von ${name} ${vorname}</h2>
@@ -41,13 +37,13 @@ export default async (req, res) => {
             </div>
         </div>
     `,
-  };
+});
 
-  let replyOptions = {
-    from: `SF Media | Ihre Social Media Agentur <${process.env.RECEIVING_EMAIL}>`,
-    to: `${email}`,
-    subject: "Vielen Dank für Ihr Interesse",
-    html: `
+const createReplyOptions = (name, vorname, email, nachricht) => ({
+  from: `SF Media | Ihre Social Media Agentur <${process.env.VITE_REACT_APP_RECEIVING_EMAIL}>`,
+  to: `${email}`,
+  subject: "Vielen Dank für Ihr Interesse",
+  html: `
         <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto;">
             <div style="background-color: #f8f9fa; padding: 20px; text-align: center; border-bottom: 1px solid #e9ecef;">
                 <h2 style="margin-bottom: 0;">Hallo ${name} ${vorname},</h2>
@@ -61,9 +57,13 @@ export default async (req, res) => {
             </div>
         </div>
     `,
-  };
+});
 
-  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.REACT_APP_SECRET_KEY}&response=${recaptchaToken}`;
+export default async (req, res) => {
+  const { name, vorname, email, telefonnummer, nachricht, recaptchaToken } =
+    req.body;
+
+  const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.VITE_REACT_APP_SECRET_KEY}&response=${recaptchaToken}`;
   try {
     const response = await axios.post(verificationURL);
     if (!response.data.success) {
@@ -75,8 +75,12 @@ export default async (req, res) => {
   }
 
   try {
-    await transporter.sendMail(mailOptions);
-    await transporter.sendMail(replyOptions);
+    await transporter.sendMail(
+      createMailOptions(name, vorname, email, telefonnummer, nachricht)
+    );
+    await transporter.sendMail(
+      createReplyOptions(name, vorname, email, nachricht)
+    );
     res.status(200).send({ message: "Message sent successfully." });
   } catch (error) {
     console.error(error);
