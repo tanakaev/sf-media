@@ -75,17 +75,24 @@
 }
 
 .form_success,
-.form_error {
-  padding-top: 2.6rem;
-  font-size: 1.5rem;
+.form_error,
+.form_submitting {
   text-align: left;
+  padding: 24px 0;
+  font-size: 1.6rem;
+  font-family: var(--font-poppins), sans-serif;
+}
+
+.form_success {
+  color: #3fd78d;
+}
+
+.form_error {
+  color: #d73f3f;
 }
 
 .form_submitting {
-  padding: 24px 0;
-  font-size: 1.6rem;
   color: #f7d081;
-  font-family: var(--font-poppins), sans-serif;
 }
 
 .recaptcha_container {
